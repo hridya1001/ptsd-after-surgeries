@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are Not Alone After Surgery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .poster {
+    width: 794px;
+    min-height: 1123px;
+    background: #F5F0E8;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top accent bar */
+  .top-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #C0392B 0%, #E74C3C 40%, #F39C12 70%, #E74C3C 100%);
+  }
+
+  /* Header zone */
+  .header {
+    background: #1B2A4A;
+    padding: 52px 60px 44px;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -28px;
+    left: 0;
+    right: 0;
+    height: 28px;
+    background: #1B2A4A;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+  }
+  .round-badge {
+    display: inline-block;
+    background: #E74C3C;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    margin-bottom: 24px;
+  }
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 58px;
+    font-weight: 900;
+    color: #F5F0E8;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .headline span {
+    color: #F39C12;
+  }
+  .subheadline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    color: #B8C5D9;
+    letter-spacing: 0.3px;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  /* Main content */
+  .content {
+    padding: 64px 60px 0;
+    flex: 1;
+  }
+
+  /* Escalation pathway */
+  .pathway-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7A6E5F;
+    margin-bottom: 28px;
+  }
+
+  .pathway {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+
+  .step-left {
+    width: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .step-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-line {
+    width: 2px;
+    flex: 1;
+    min-height: 24px;
+    background: #D9D0C0;
+    margin: 4px 0;
+  }
+
+  .step-body {
+    flex: 1;
+    padding: 0 0 32px 20px;
+  }
+  .step-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1B2A4A;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .step-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5A5043;
+    line-height: 1.6;
+  }
+
+  /* Step colours */
+  .step-1 .step-number { background: #EBF5FB; color: #1B6CA8; border: 2px solid #AED6F1; }
+  .step-1 .step-tag { background: #EBF5FB; color: #1B6CA8; }
+  .step-2 .step-number { background: #FEF9E7; color: #B7950B; border: 2px solid #F9E79F; }
+  .step-2 .step-tag { background: #FEF9E7; color: #B7950B; }
+  .step-3 .step-number { background: #FDEDEC; color: #C0392B; border: 2px solid #F5B7B1; }
+  .step-3 .step-tag { background: #FDEDEC; color: #C0392B; }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: #D9D0C0;
+    margin: 8px 0 40px;
+  }
+
+  /* Helpline box */
+  .helpline-section {
+    margin: 0 60px;
+  }
+  .helpline-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7A6E5F;
+    margin-bottom: 16px;
+  }
+  .helpline-box {
+    background: #1B2A4A;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .helpline-left {}
+  .helpline-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #F39C12;
+    margin-bottom: 6px;
+  }
+  .helpline-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #F5F0E8;
+    letter-spacing: 2px;
+  }
+  .helpline-right {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: #B8C5D9;
+    line-height: 1.6;
+    max-width: 240px;
+    text-align: right;
+  }
+
+  /* QR zone */
+  .qr-zone {
+    margin: 32px 60px 0;
+    border: 2px dashed #C4B89A;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .qr-placeholder-box {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #C4B89A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .qr-placeholder-inner {
+    width: 50px;
+    height: 50px;
+    background: repeating-linear-gradient(
+      45deg,
+      #C4B89A,
+      #C4B89A 2px,
+      transparent 2px,
+      transparent 8px
+    );
+  }
+  .qr-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #9A8E7D;
+    line-height: 1.5;
+  }
+  .qr-text strong {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #7A6E5F;
+    margin-bottom: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 36px;
+    padding: 20px 60px;
+    background: #1B2A4A;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-left {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #7A8EA8;
+    letter-spacing: 0.5px;
+  }
+  .footer-right {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #F39C12;
+    letter-spacing: 1px;
+  }
+
+  /* Decorative corner shape */
+  .corner-shape {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 180px;
+    height: 180px;
+    opacity: 0.06;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="top-bar"></div>
+
+  <div class="header">
+    <svg class="corner-shape" viewBox="0 0 180 180" fill="none">
+      <circle cx="180" cy="0" r="140" fill="#F5F0E8"/>
+      <circle cx="180" cy="0" r="100" fill="#F5F0E8"/>
+      <circle cx="180" cy="0" r="60" fill="#F5F0E8"/>
+    </svg>
+    <div class="round-badge">Method 835 · Round 4 · Awareness Campaign</div>
+    <div class="headline">You Are<br><span>Not Alone</span><br>After Surgery.</div>
+    <div class="subheadline">Recovery happens at home — but support never stops. Here's exactly who to call and when.</div>
+  </div>
+
+  <div class="content">
+    <div style="height: 48px;"></div>
+    <div class="pathway-title">Your Escalation Pathway — Symptom → Action → Contact</div>
+
+    <div class="pathway">
+
+      <div class="step step-1">
+        <div class="step-left">
+          <div class="step-number">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-tag">Something feels off</div>
+          <div class="step-heading">Mild concern or question</div>
+          <div class="step-desc">Pain slightly higher than expected, wound looks different, confused about medication timing, or simply anxious. <strong>Don't wait.</strong> Contact your named recovery nurse during working hours.</div>
+        </div>
+      </div>
+
+      <div class="step step-2">
+        <div class="step-left">
+          <div class="step-number">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-tag">Escalate — call your GP</div>
+          <div class="step-heading">Worsening pain, fever, or swelling</div>
+          <div class="step-desc">Temperature above 38°C, wound becoming red or weeping, pain not controlled by prescribed medication, persistent nausea, or difficulty breathing on exertion. <strong>Call your GP today.</strong></div>
+        </div>
+      </div>
+
+      <div class="step step-3">
+        <div class="step-left">
+          <div class="step-number">3</div>
+        </div>
+        <div class="step-body">
+          <div class="step-tag">Emergency — act immediately</div>
+          <div class="step-heading">Chest pain, heavy bleeding, or collapse</div>
+          <div class="step-desc">Sudden severe pain, significant bleeding that won't stop, difficulty breathing at rest, confusion, or loss of consciousness. <strong>Call 999 or go to A&E immediately.</strong></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+  </div>
+
+  <div class="helpline-section">
+    <div class="helpline-label">Post-Discharge Support Helpline</div>
+    <div class="helpline-box">
+      <div class="helpline-left">
+        <div class="helpline-tag">Call us anytime — 24 hours, 7 days</div>
+        <div class="helpline-number">603 448 075</div>
+      </div>
+      <div class="helpline-right">Staffed by trained surgical nurses. Your call will be answered — not redirected to a general switchboard.</div>
+    </div>
+  </div>
+
+  <div class="qr-zone">
+    <div class="qr-placeholder-box">
+      <div class="qr-placeholder-inner"></div>
+    </div>
+    <div class="qr-text">
+      <strong>Scan for online resources</strong>
+      Symptom checker · Wound care guides · Medication FAQs<br>
+      Post-discharge support portal — place QR code here
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">For patients, families &amp; community health workers &nbsp;·&nbsp; Post-Surgery Home Recovery Initiative</div>
+    <div class="footer-right">Recovery doesn't stop at the door.</div>
+  </div>
+</div>
+</body>
+</html>

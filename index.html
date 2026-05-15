@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTSD After Surgeries — Design Thinking Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-deep:    #1a4a6b;
+    --blue-mid:     #2e7cb8;
+    --blue-light:   #d6eaf8;
+    --blue-pale:    #eaf4fb;
+    --blue-accent:  #5aabdd;
+    --white:        #ffffff;
+    --text-dark:    #1c2e3d;
+    --text-mid:     #4a6375;
+    --text-light:   #7a96a8;
+    --border:       #c5dff0;
+    --shadow:       0 2px 16px rgba(30,80,120,0.09);
+    --radius:       12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blue-pale);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--blue-deep);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 32px;
+    height: 56px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  nav .brand {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-right: 20px;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.72);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.18s, color 0.18s;
+  }
+  nav button:hover, nav button.active {
+    background: rgba(255,255,255,0.13);
+    color: #fff;
+  }
+  nav button.active {
+    background: var(--blue-mid);
+    color: #fff;
+  }
+
+  /* ── HERO ── */
+  #home {
+    background: linear-gradient(135deg, var(--blue-deep) 0%, #1e6091 60%, var(--blue-mid) 100%);
+    color: #fff;
+    padding: 72px 48px 60px;
+    text-align: center;
+  }
+  #home .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    margin-bottom: 22px;
+    color: #b8dff5;
+  }
+  #home h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  #home h1 span { color: #7fd3f7; }
+  #home .subtitle {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 36px;
+  }
+  .team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 760px;
+    margin: 0 auto 48px;
+  }
+  .team-pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 24px;
+    padding: 6px 16px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.88);
+  }
+  .team-pill span { color: rgba(255,255,255,0.5); font-size: 11px; display: block; }
+
+  /* Summary strip */
+  .summary-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 20px 28px;
+    text-align: center;
+    min-width: 160px;
+  }
+  .stat-card .num {
+    font-family: 'Lora', serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #7fd3f7;
+  }
+  .stat-card .label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ── TABS CONTENT ── */
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ── PAGE SHELL ── */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--blue-deep);
+    margin-bottom: 6px;
+  }
+  .section-byline {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 32px;
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 16px;
+  }
+  .block-title {
+    font-family: 'Lora', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--blue-deep);
+    margin-bottom: 4px;
+  }
+  .block-byline {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 14px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+  }
+
+  /* ── PERSONAS SIDE BY SIDE ── */
+  .personas-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .persona-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .persona-card .persona-header {
+    background: var(--blue-deep);
+    color: #fff;
+    padding: 14px 20px;
+  }
+  .persona-card .persona-header h3 {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+  }
+  .persona-card .persona-header p {
+    font-size: 11px;
+    opacity: 0.65;
+    margin-top: 2px;
+  }
+  .persona-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── 2-COL EMPATHY MAPS ── */
+  .maps-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .map-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .map-card .map-header {
+    background: linear-gradient(90deg, var(--blue-mid), var(--blue-accent));
+    color: #fff;
+    padding: 12px 18px;
+  }
+  .map-card .map-header h3 { font-size: 15px; font-family: 'Lora', serif; }
+  .map-card .map-header p { font-size: 11px; opacity: 0.7; margin-top: 2px; }
+  .map-card img { width: 100%; height: auto; display: block; }
+
+  /* ── RCA 4-GRID ── */
+  .rca-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .rca-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  /* ── DOWNLOAD BUTTON ── */
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue-deep);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-top: 8px;
+    margin-right: 10px;
+    transition: background 0.18s;
+  }
+  .dl-btn:hover { background: var(--blue-mid); }
+  .dl-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 2px solid var(--blue-mid);
+    color: var(--blue-mid);
+    text-decoration: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-top: 8px;
+    margin-right: 10px;
+    transition: background 0.18s, color 0.18s;
+  }
+  .link-btn:hover { background: var(--blue-mid); color: #fff; }
+
+  /* ── AUDIO BLOCK ── */
+  .audio-block {
+    background: var(--blue-pale);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .audio-block audio {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 6px;
+  }
+
+  /* ── YOUTUBE EMBED ── */
+  .yt-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .yt-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* ── HMW QUESTIONS ── */
+  .hmw-list { list-style: none; counter-reset: hmw; margin: 20px 0 28px; }
+  .hmw-list li {
+    counter-increment: hmw;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+  }
+  .hmw-list li::before {
+    content: counter(hmw);
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--blue-mid);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .hmw-list li p { font-size: 14.5px; line-height: 1.6; color: var(--text-dark); padding-top: 4px; }
+
+  /* ── EXCEL BLOCKS ── */
+  .excel-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: var(--shadow);
+  }
+  .excel-block .left .title { font-weight: 600; color: var(--blue-deep); font-size: 15px; }
+  .excel-block .left .desc { font-size: 12.5px; color: var(--text-light); margin-top: 3px; }
+  .excel-icon { font-size: 32px; }
+
+  /* ── TOP IDEAS ── */
+  .ideas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+  .idea-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 14px;
+  }
+  .idea-num {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: 'Lora', serif;
+  }
+  .idea-card p { font-size: 13.5px; line-height: 1.6; color: var(--text-mid); }
+
+  /* ── PROTOTYPE CARDS ── */
+  .proto-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .proto-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .proto-card .proto-header {
+    background: var(--blue-pale);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+  }
+  .proto-card .proto-header h3 { font-family: 'Lora', serif; font-size: 15px; color: var(--blue-deep); }
+  .proto-card .proto-header p { font-size: 11.5px; color: var(--text-light); margin-top: 3px; }
+  .proto-card .proto-body { padding: 18px 20px; }
+  .proto-card embed, .proto-card iframe {
+    width: 100%;
+    height: 420px;
+    border: none;
+    border-radius: 6px;
+    background: #f0f0f0;
+  }
+
+  /* ── POSTER IFRAME ── */
+  .poster-wrap {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+  }
+  .poster-wrap .poster-header {
+    background: var(--blue-deep);
+    color: #fff;
+    padding: 14px 22px;
+  }
+  .poster-wrap .poster-header h3 { font-family: 'Lora', serif; font-size: 16px; }
+  .poster-wrap .poster-header p { font-size: 11.5px; opacity: 0.65; margin-top: 3px; }
+  .poster-wrap iframe {
+    width: 100%;
+    height: 1200px;
+    border: none;
+    display: block;
+  }
+
+  /* ── SIGNIFICANCE POINTS ── */
+  .sig-list { list-style: none; margin: 0; }
+  .sig-list li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-mid);
+  }
+  .sig-list li:last-child { border-bottom: none; }
+  .sig-list li .dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue-mid);
+    margin-top: 7px;
+  }
+
+  /* ── INTERVIEW IMG ── */
+  .interview-img-wrap img {
+    width: 100%;
+    max-width: 700px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  /* ── NOTE BOX ── */
+  .note-box {
+    background: #fff8e1;
+    border: 1px solid #ffe08a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #7a5c00;
+    margin-bottom: 20px;
+  }
+
+  /* ── COMIC PLACEHOLDER ── */
+  .comic-placeholder {
+    background: var(--blue-pale);
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .comic-placeholder strong { display: block; color: var(--blue-deep); font-size: 16px; margin-bottom: 8px; }
+
+  /* ── SPACER ── */
+  .spacer { height: 32px; }
+
+  @media (max-width: 700px) {
+    nav { overflow-x: auto; padding: 0 12px; gap: 2px; }
+    .page { padding: 28px 16px 60px; }
+    .personas-row, .maps-row, .proto-row, .rca-grid { grid-template-columns: 1fr; }
+    #home { padding: 48px 20px 40px; }
+    .excel-block { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">PTSD × Surgery</div>
+  <button class="active" onclick="showTab('home')">Home</button>
+  <button onclick="showTab('tab1')">Surveys</button>
+  <button onclick="showTab('tab2')">Journey & Empathy Path and Pain Points</button>
+  <button onclick="showTab('tab3')">RCA</button>
+  <button onclick="showTab('tab4')">How Might We?</button>
+  <button onclick="showTab('tab5')">8-3-5 Rule</button>
+  <button onclick="showTab('tab6')">Top Ideas & Prototypes</button>
+</nav>
+
+<!-- ══════════════════════════════════ HOME ══════════════════════════════════ -->
+<div id="home" class="tab-pane active">
+  <div class="tag">Design Thinking Project · 2025-26</div>
+  <h1>PTSD After <span>Surgeries</span></h1>
+  <p class="subtitle">Empathy-driven research into post-surgical trauma: understanding, mapping, and designing solutions.</p>
+
+  <div class="team-grid">
+    <div class="team-pill">Maddali Sreetej <span>SE24UMEC001</span></div>
+    <div class="team-pill">B Viraj Anshuman <span>SE24UMEC019</span></div>
+    <div class="team-pill">Shriyan Reddy Kancharla <span>SE24UVLS025</span></div>
+    <div class="team-pill">K Anirudh Reddy <span>SE24UECM013</span></div>
+    <div class="team-pill">Arjun Kumar <span>SE24UECE010</span></div>
+    <div class="team-pill">Mani Chandra <span>SE24UECE008</span></div>
+    <div class="team-pill">Abhiram Boyapati <span>SE24UECE081</span></div>
+  </div>
+
+  <div class="summary-strip">
+    <div class="stat-card">
+      <div class="num">2</div>
+      <div class="label">User Personas developed through empathy research</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">4</div>
+      <div class="label">Root cause branches identified via 5-Why Analysis</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">5</div>
+      <div class="label">How Might We questions framed from RCA insights</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">192</div>
+      <div class="label">Solutions generated through 8-3-5 brainstorming</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">3</div>
+      <div class="label">Prototypes developed and presented</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ TAB 1: SURVEYS ══════════════════════════════════ -->
+<div id="tab1" class="tab-pane">
+<div class="page">
+
+  <div class="section-title">Surveys & User Research</div>
+  <div class="section-byline">Personas, interviews, and audio/visual evidence gathered during the empathy phase of design thinking.</div>
+
+  <!-- PERSONAS -->
+  <div class="block-title">User Personas</div>
+  <div class="block-byline">Two representative personas constructed from primary research interviews.</div>
+  <div class="personas-row">
+    <div class="persona-card">
+      <div class="persona-header">
+        <h3>Persona 1 — Viraj (B. Viraj Anshuman)</h3>
+        <p>Age 19 · Student · Telangana · High Tech Comfort</p>
+      </div>
+      <img src="assets/Persona-Template-viraj-anshuman.png" alt="Viraj Anshuman persona template">
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <h3>Persona 2 — S. Vinay Kumar</h3>
+        <p>Age 72 · Journalist / Chief Editor · Hyderabad · Low/Medium Tech Comfort</p>
+      </div>
+      <img src="assets/S-Vinay-Kumar-Persona.png" alt="S. Vinay Kumar persona template">
+    </div>
+  </div>
+
+  <!-- INTERVIEW DOC -->
+  <div class="card">
+    <div class="block-title">PTSD Interview Questions with Reasons</div>
+    <div class="block-byline">Structured interview guide used during primary research — includes each question and the psychological rationale behind it.</div>
+    <a class="dl-btn" href="assets/PTSD_Interview_Questions_with_Reasons (1).docx" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+      Download Interview Questions (.docx)
+    </a>
+  </div>
+
+  <!-- AUDIO SURVEYS -->
+  <div class="block-title">Audio Surveys</div>
+  <div class="block-byline">Recorded interviews conducted with participants during the empathy phase.</div>
+
+  <div class="audio-block">
+    <div class="block-title" style="font-size:15px; margin-bottom:2px;">Interview — S. Sujavathi (Senior Nurse)</div>
+    <div class="block-byline" style="margin-bottom:8px;">Audio interview with a senior nurse discussing patient experiences of post-surgical PTSD and recovery challenges.</div>
+    <audio controls>
+      <source src="assets/Interview-audio-S-Sujavathi-Senior-Nurse.mp4" type="video/mp4">
+      Your browser does not support audio playback. <a href="assets/Interview-audio-S-Sujavathi-Senior-Nurse.mp4" download>Download the audio file</a>.
+    </audio>
+  </div>
+
+  <div class="audio-block">
+    <div class="block-title" style="font-size:15px; margin-bottom:2px;">Interview — Rohan Manichandra</div>
+    <div class="block-byline" style="margin-bottom:8px;">Audio interview with a patient who has undergone a tailbone alignment surgery recently discussing his surgery experience.</div>
+    <audio controls>
+      <source src="assets/Interview-audio-B-Viraj-Anshuman.mp4" type="video/mp4">
+      Your browser does not support audio playback. <a href="assets/Interview-audio-B-Viraj-Anshuman.mp4" download>Download the audio file</a>.
+    </audio>
+  </div>
+
+  <!-- VISUAL SURVEY PLACEHOLDER -->
+  <div class="card">
+    <div class="block-title">Visual Survey</div>
+    <div class="block-byline">Photographs from in-person interview sessions.</div>
+    <div class="note-box" style="margin-bottom:0;">
+      <img src="assets/Interview-Picture-About-PTSDa.jpeg" style="width:100%;border-radius:8px;">
+    </div>
+  </div>
+
+  <!-- YOUTUBE -->
+  <div class="card">
+    <div class="block-title">Video Interview</div>
+    <div class="block-byline">A recorded video interview providing first-hand accounts of post-surgical experiences and PTSD symptoms.</div>
+    <a class="link-btn" href="https://www.youtube.com/watch?v=ZhQa0vWX7TU" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Open YouTube Link
+    </a>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ TAB 2: JOURNEY & EMPATHY ══════════════════════════════════ -->
+<div id="tab2" class="tab-pane">
+<div class="page">
+
+  <div class="section-title">Journey & Empathy Maps</div>
+  <div class="section-byline">Visual tools used to trace each persona's emotional journey through the surgical experience and identify key moments of distress.</div>
+
+  <div class="maps-row">
+    <div class="map-card">
+      <div class="map-header">
+        <h3>B. Viraj Anshuman — Journey & Empathy Map</h3>
+        <p>ACL reconstruction surgery recovery journey · Persona 1</p>
+      </div>
+      <img src="assets/B-Viraj-Anshuman-Journey-Empathy-Map.png" alt="Viraj Anshuman Journey and Empathy Map">
+    </div>
+    <div class="map-card">
+      <div class="map-header">
+        <h3>S. Vinay Kumar — Journey & Empathy Map</h3>
+        <p>Surgical recovery journey · Senior journalist, age 72 · Persona 2</p>
+      </div>
+      <img src="assets/Journey -Empathy-Map-S-Vinay-Kumar.png" alt="S. Vinay Kumar Journey and Empathy Map">
+    </div>
+  </div>
+
+  <!-- SIGNIFICANCE -->
+  <div class="card">
+    <div class="block-title">Significance of Journey & Empathy Maps in This Project</div>
+    <div class="block-byline">How these tools shaped our understanding of the problem and guided the design process.</div>
+    <ul class="sig-list">
+      <li><div class="dot"></div><div>Journey maps allowed us to trace the <strong>full arc of the patient experience</strong>:from pre-surgery anxiety through post-discharge isolation, making the emotional timeline visible and actionable.</div></li>
+      <li><div class="dot"></div><div>The empathy map layers (thinks, feels, says, does) revealed a <strong>sharp disconnect</strong> between what patients outwardly said ("I'm okay") and what they internally experienced (panic, confusion, abandonment).</div></li>
+      <li><div class="dot"></div><div>By mapping emotion scores across stages, we identified <strong>critical drop points</strong>:particularly during anesthesia and the recovery room where PTSD risk is highest and intervention is most needed.</div></li>
+      <li><div class="dot"></div><div>Pain points and opportunities surfaced at each stage directly <strong>fed into our "How Might We" questions</strong>, ensuring our solutions are grounded in real user experiences rather than assumptions.</div></li>
+      <li><div class="dot"></div><div>Comparing two radically different personas (a 19-year-old student vs. a 72-year-old journalist) highlighted how PTSD triggers are <strong>universal across age and background</strong>, validating the systemic nature of the problem.</div></li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ TAB 3: RCA ══════════════════════════════════ -->
+<div id="tab3" class="tab-pane">
+<div class="page">
+
+  <div class="section-title">Root Cause Analysis</div>
+  <div class="section-byline">A 5-Why deep-dive into the systemic causes of post-surgical PTSD, organised across four interconnected branches.</div>
+
+  <!-- 4-GRID -->
+  <div class="block-title">Full Mind Map (4-Panel View)</div>
+  <div class="block-byline">The four panels below form a single connected mind map. Read: top-left → top-right → bottom-left → bottom-right.</div>
+  <div class="rca-grid">
+    <img src="assets/DTL RCA-4.jpg.jpeg" alt="RCA Panel 4 — top left">
+    <img src="assets/DTL RCA-1.jpg.jpeg" alt="RCA Panel 1 — top right">
+    <img src="assets/DTL RCA-3.jpg.jpeg" alt="RCA Panel 3 — bottom left">
+    <img src="assets/DTL RCA-2.jpg.jpeg" alt="RCA Panel 2 — bottom right">
+  </div>
+
+  <!-- MIRO LINK -->
+  <div class="card">
+    <div class="block-title">Interactive Mind Map — Miro Board</div>
+    <div class="block-byline">Open the full interactive root cause analysis in Miro for detailed exploration of all five-why branches.</div>
+    <a class="link-btn" href="https://miro.com/app/board/uXjVHTHURTU=/?share_link_id=860308141912" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Open Miro Board
+    </a>
+  </div>
+
+  <!-- DOCS -->
+  <div class="card">
+    <div class="block-title">Root Cause Analysis — Stage 1 (Detailed)</div>
+    <div class="block-byline">Five-why analysis for all four branches, presented branch by branch with full cause-chain reasoning.</div>
+    <a class="dl-btn" href="assets/Root Cause Analysis till 1 stage.docx" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+      Download RCA Stage 1 (.docx)
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="block-title">RCA Full Stage Overview</div>
+    <div class="block-byline">Comprehensive overview of all four root cause branches with neuroscientific and systemic context for each finding.</div>
+    <a class="dl-btn" href="assets/RCA full stage overview.docx" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+      Download Full RCA Overview (.docx)
+    </a>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ TAB 4: HMW ══════════════════════════════════ -->
+<div id="tab4" class="tab-pane">
+<div class="page">
+
+  <div class="section-title">How Might We?</div>
+  <div class="section-byline">Five design questions framed directly from our root cause analysis, following the HMW formula: intended action + potential user + desired outcome.</div>
+
+  <!-- HMW Formula image -->
+  <div class="card" style="text-align:center;">
+    <div class="block-title">The "How Might We" Formula</div>
+    <div class="block-byline">Taught as part of the design thinking methodology at our institution.</div>
+    <img src="assets/HWW q.jpeg" alt="How Might We formula diagram" style="max-width:620px;width:100%;border-radius:8px;border:1px solid var(--border);margin-top:8px;">
+  </div>
+
+  <div class="card">
+    <div class="block-title">Our 5 How Might We Questions</div>
+    <div class="block-byline">Framed based on the four root cause branches — information gap, sensory environment, anesthesia experience, and post-discharge isolation.</div>
+    <ol class="hmw-list">
+      <li><p>How might we <strong>redesign surgical consent</strong> for preoperative patients so that they feel psychologically prepared, not just legally consented?</p></li>
+      <li><p>How might we <strong>explain what surgery will feel like</strong> for patients before their operation so that they don't feel scared and lost when it actually happens?</p></li>
+      <li><p>How might we <strong>make the recovery room feel less overwhelming</strong> for patients waking up after surgery so that they feel safe instead of panicked?</p></li>
+      <li><p>How might we <strong>better match the amount of anesthesia</strong> to each person's body for patients undergoing surgery so that no one wakes up or stays conscious during their procedure?</p></li>
+      <li><p>How might we <strong>stay in touch with patients after they go home</strong> for people recovering from surgery so that they don't feel alone and confused when something feels wrong?</p></li>
+    </ol>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ TAB 5: 8-3-5 ══════════════════════════════════ -->
+<div id="tab5" class="tab-pane">
+<div class="page">
+
+  <div class="section-title">8-3-5 Brainstorming Rule</div>
+  <div class="section-byline">Based on each How Might We question, we conducted an 8-3-5 brainstorm activity — 8 people, 3 ideas each, 5 rounds — resulting in <strong>192 total solutions</strong>.</div>
+
+  <div class="card" style="margin-bottom:32px;">
+    <div class="block-title">What is the 8-3-5 Rule?</div>
+    <div class="block-byline">A structured rapid ideation technique used in design thinking.</div>
+    <ul class="sig-list">
+      <li><div class="dot"></div><div><strong>8</strong> participants generate ideas simultaneously, removing group-think bias.</div></li>
+      <li><div class="dot"></div><div><strong>3</strong> ideas per person per round, balancing quality and quantity.</div></li>
+      <li><div class="dot"></div><div><strong>5</strong> rounds of idea generation, with sheets passed between participants for cross-pollination of concepts.</div></li>
+      <li><div class="dot"></div><div>Applied once per HMW question, yielding <strong>8 × 3 × 5 × (number of questions) = 600 ideation slots</strong>, filtered down to 192 distinct solutions.</div></li>
+    </ul>
+  </div>
+
+  <div class="block-title">8-3-5 Sheets by HMW Question</div>
+  <div class="block-byline">Download each Excel sheet to view all solutions generated for the corresponding question.</div>
+
+  <div class="excel-block">
+    <div class="left">
+      <div class="title">HMW Q1 — Redesigning Surgical Consent</div>
+      <div class="desc">How might we redesign surgical consent for preoperative patients so that they feel psychologically prepared, not just legally consented?</div>
+    </div>
+    <a class="dl-btn" href="assets/HWM 1.xlsx" download>Download</a>
+  </div>
+
+  <div class="excel-block">
+    <div class="left">
+      <div class="title">HMW Q2 — Explaining What Surgery Feels Like</div>
+      <div class="desc">How might we explain what surgery will feel like for patients before their operation so that they don't feel scared and lost?</div>
+    </div>
+    <a class="dl-btn" href="assets/HWM2.xlsx" download>Download</a>
+  </div>
+
+  <div class="excel-block">
+    <div class="left">
+      <div class="title">HMW Q3 — Making the Recovery Room Less Overwhelming</div>
+      <div class="desc">How might we make the recovery room feel less overwhelming for patients waking up after surgery so that they feel safe instead of panicked?</div>
+    </div>
+    <a class="dl-btn" href="assets/HWM3.xlsx" download>Download</a>
+  </div>
+
+  <div class="excel-block">
+    <div class="left">
+      <div class="title">HMW Q4 — Matching Anesthesia to Each Person</div>
+      <div class="desc">How might we better match the amount of anesthesia to each person's body so that no one wakes up or stays conscious during their procedure?</div>
+    </div>
+    <a class="dl-btn" href="assets/HMW4.xlsx" download>Download</a>
+  </div>
+
+  <div class="excel-block">
+    <div class="left">
+      <div class="title">HMW Q5 — Staying in Touch After Discharge</div>
+      <div class="desc">How might we stay in touch with patients after they go home so that they don't feel alone and confused when something feels wrong?</div>
+    </div>
+    <a class="dl-btn" href="assets/HMW5.xlsx" download>Download</a>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ TAB 6: TOP IDEAS & PROTOTYPES ══════════════════════════════════ -->
+<div id="tab6" class="tab-pane">
+<div class="page">
+
+  <div class="section-title">Top Ideas & Prototypes</div>
+  <div class="section-byline">The highest-impact ideas selected from 192 brainstormed solutions, developed into three tangible prototypes.</div>
+
+  <!-- TOP IDEAS -->
+  <div class="block-title">Top 7 Ideas</div>
+  <div class="block-byline">Shortlisted from the 8-3-5 brainstorm based on feasibility, impact, and alignment with root causes.</div>
+  <div class="ideas-grid">
+    <div class="idea-card">
+      <div class="idea-num">1</div>
+      <p>Give patients a <strong>simple one-page visual comic strip</strong> explaining their surgery step-by-step in plain language.</p>
+    </div>
+    <div class="idea-card">
+      <div class="idea-num">2</div>
+      <p>Give patients a simple <strong>breathing exercise card</strong> to practise the night before, to use during induction.</p>
+    </div>
+    <div class="idea-card">
+      <div class="idea-num">3</div>
+      <p>Give patients a <strong>cartoon comic strip</strong> showing every step of their surgery day / a simple printed card explaining where the patient is.</p>
+    </div>
+    <div class="idea-card">
+      <div class="idea-num">4</div>
+      <p>Play a <strong>friendly doctor's recorded voice</strong> narrating 'what happens next' in the pre-op bay.</p>
+    </div>
+    <div class="idea-card">
+      <div class="idea-num">5</div>
+      <p>Provide a <strong>printed discharge summary in plain language</strong> the patient can read at home.</p>
+    </div>
+    <div class="idea-card">
+      <div class="idea-num">6</div>
+      <p>Design a bold <strong>awareness poster campaign</strong> for hospital wards, GP waiting rooms, and community centres: 'You Are Not Alone After Surgery — Here's Who to Call.'</p>
+    </div>
+    <div class="idea-card">
+      <div class="idea-num">7</div>
+      <p><strong>National poster and infographic campaign</strong> across all NHS trusts, GP surgeries, pharmacies: 'Recovery Doesn't Stop at the Hospital Door.'</p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- PROTOTYPES -->
+  <div class="block-title">Prototypes</div>
+  <div class="block-byline">Three prototypes developed to bring the top ideas to life.</div>
+
+  <!-- PDF Prototypes -->
+  <div class="proto-row">
+    <div class="proto-card">
+      <div class="proto-header">
+        <h3>Prototype 1 — Breathing Retraining Information Sheet</h3>
+        <p>Anxiety Information Sheet #08 · Centre for Clinical Interventions</p>
+      </div>
+      <div class="proto-body">
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:12px;">A clear, patient-friendly guide to breathing retraining — designed to be given to patients the night before surgery to reduce induction anxiety.</p>
+        <embed src="assets/Anxiety Information Sheet - 08 - Breathing Retraining.pdf#toolbar=0" type="application/pdf">
+        <div style="margin-top:12px;">
+          <a class="dl-btn" href="assets/Anxiety Information Sheet - 08 - Breathing Retraining.pdf" download>Download PDF</a>
+        </div>
+      </div>
+    </div>
+    <div class="proto-card">
+      <div class="proto-header">
+        <h3>Prototype 2 — Breathing Rate Record Sheet</h3>
+        <p>Anxiety Worksheet #02 · Centre for Clinical Interventions</p>
+      </div>
+      <div class="proto-body">
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:12px;">A daily monitoring worksheet patients can use post-surgery to practise and track their breathing retraining exercises as part of home recovery.</p>
+        <embed src="assets/Anxiety Worksheet - 02 - Breathing Rate Record Sheet.pdf#toolbar=0" type="application/pdf">
+        <div style="margin-top:12px;">
+          <a class="dl-btn" href="assets/Anxiety Worksheet - 02 - Breathing Rate Record Sheet.pdf" download>Download PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTER -->
+  <div class="poster-wrap">
+    <div class="poster-header">
+      <h3>Prototype 3 — Awareness Poster: "You Are Not Alone After Surgery"</h3>
+      <p>Method 835 · Round 4 · Awareness Campaign · Post-Surgery Home Recovery Initiative</p>
+    </div>
+    <iframe src="assets/Poster1_YouAreNotAlone.html" title="You Are Not Alone After Surgery Poster" loading="lazy"></iframe>
+  </div>
+
+  <!-- COMIC STRIPS -->
+  <div class="block-title">Comic Strip Prototypes</div>
+  <div class="block-byline">Visual, step-by-step surgery explanation strips — designed to reduce pre-operative anxiety through plain-language storytelling.</div>
+
+  <div class="comic-placeholder">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+  <div>
+    <div class="block-title">Comic Strip 1 — Understanding Surgery</div>
+    <div class="block-byline">Step-by-step visual guide to understand steps involved in the surgery.</div>
+    <img src="assets/PTSD after surgery comic strip.png" style="width:100%;border-radius:8px;border:1px solid var(--border);">
+  </div>
+  <div>
+    <div class="block-title">Comic Strip 2 — Surgery Day</div>
+    <div class="block-byline">Step-by-step visual guide to what happens on surgery day.</div>
+    <img src="assets/PTSD after surgery comic strip-2.png" style="width:100%;border-radius:8px;border:1px solid var(--border);">
+  </div>
+</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  function showTab(id) {
+    // Hide all panes
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+
+    // Show target
+    document.getElementById(id).classList.add('active');
+
+    // Activate button
+    const buttons = document.querySelectorAll('nav button');
+    const map = { home: 0, tab1: 1, tab2: 2, tab3: 3, tab4: 4, tab5: 5, tab6: 6 };
+    buttons[map[id]].classList.add('active');
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
